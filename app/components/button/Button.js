@@ -14,10 +14,6 @@ const Button = (props) => {
     } = props
 
     const { theme } = useContext(ThemeContext)
-    console.log("Este es el theme en el boton")
-    console.log(theme)
-
-
 
     return <ButtonStyled onPress={url ? () => { Linking.openURL(url) } : onPress} color={isPrimary === true ? theme.primaryColor : theme.backgroundColor}>
         <TextButtonStyled color={isPrimary === true ? theme.textColorLight : theme.textColor}>{text || props.children}</TextButtonStyled>
