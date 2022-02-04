@@ -8,12 +8,14 @@ const Button = (props) => {
 
     const {
         text = undefined,
-        isPrimary = false,
+        isPrimary = true,
         url = undefined,
         onPress = () => { }
     } = props
 
     const { theme } = useContext(ThemeContext)
+    console.log("Este es el theme en el boton")
+    console.log(theme)
 
 
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 
 const Theme = {
+    name: undefined,
     primaryColor: undefined,
     textColorLight: undefined,
     textColor: undefined,
