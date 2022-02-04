@@ -8,10 +8,7 @@
 
 import React, { useState, useEffect } from 'react';
 import type { Node } from 'react';
-import LinearGradient from 'react-native-linear-gradient';
 import ThemeContextProvider, { Theme } from './app/hooks/context/Theme.context';
-import MiddleMoonTopContainer from './app/components/container/middlemoontopcontainer/MiddleMoonTopContainer';
-
 import { SafeAreaView, StatusBar } from 'react-native';
 import MainContainer from './app/components/container/main/MainContainer';
 import { ThemeLight, ThemeDark } from './app/resources/themes/themes';
