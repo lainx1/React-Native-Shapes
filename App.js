@@ -6,9 +6,10 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import type { Node } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+import ThemeContextProvider, { Theme } from './app/hooks/context/Theme.context';
 
 import {
   SafeAreaView,
@@ -18,7 +19,7 @@ import {
   Text,
   useColorScheme,
   View,
-  Dimensions, Button, Alert
+  Dimensions, Alert
 } from 'react-native';
 
 import {
@@ -28,39 +29,25 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import { Heart, Triangle } from 'react-native-shapes';
+import Button from './app/components/button/Button';
+import MainContainer from './app/components/container/main/MainContainer';
+import { ThemeLight, ThemeDark } from './app/resources/themes/themes';
 
 const { width: W, height: H } = Dimensions.get('window')
 
-
-const Section = ({ children, title }): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
-
 const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+
+  //const isDarkMode = useColorScheme() === 'dark';
+  const isDarkMode = true
+  const [theme, setTheme] = useState(Theme)
+
+  useEffect(() => {
+    console.log("IsDarkMode")
+
+    if (!theme.primaryColor) {
+      setTheme(isDarkMode === true ? ThemeDark : ThemeLight)
+    }
+  }, [theme])
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -68,57 +55,42 @@ const App: () => Node = () => {
 
   return (
     <SafeAreaView style={backgroundStyle}>
-
-      <View style={{
-        width: "100%",
-        height: "100%",
+      <ThemeContextProvider value={{
+        theme: theme,
+        setTheme: setTheme
       }}>
+        <MainContainer>
+          <LinearGradient
+            start={{ x: 0.8, y: 0.2 }}
+            end={{ x: 0.5, y: 1.0 }}
+            locations={[0.1, 0.9]}
+            colors={["#3F388E", "#3F388E"]}
+            style={{
+              top: -250,
+              left: -10,
+              height: 600,
+              width: 600,
+              backgroundColor: "#3F388E",
+              borderRadius: 400,
+            }}
+          >
+            <View style={{
+              top: 250,
+              left: 10,
+              width: W,
+              height: H,
 
-        <LinearGradient
-          start={{ x: 0.8, y: 0.2 }}
-          end={{ x: 0.5, y: 1.0 }}
-          locations={[0.1, 0.9]}
-          colors={["#3F388E", "#3F388E"]}
-          style={{
-            top: -250,
-            left: -10,
-            height: 600,
-            width: 600,
-            backgroundColor: "#3F388E",
-            borderRadius: 400,
-          }}
-        >
-          <View style={{
-            top: 250,
-            left: 10,
-            width: W,
-            height: H,
-
-          }}>
-            <StatusBar  backgroundColor="#3F388E" />
-            {/* <Button title="Hola sou un boton" onPress={() => Alert.alert('Left button pressed')} />
-            <Button title="Hola sou un boton" onPress={() => Alert.alert('Left button pressed')} />
-            <Button title="Hola sou un boton" onPress={() => Alert.alert('Left button pressed')} />
-            <Button title="Hola sou un boton" onPress={() => Alert.alert('Left button pressed')} />
-            <Button title="Hola sou un boton" onPress={() => Alert.alert('Left button pressed')} />
-            <Button title="Hola sou un boton" onPress={() => Alert.alert('Left button pressed')} /> */}
-            
-            <Text>Hola soy un texto</Text>
-            <Text>Hola soy un texto</Text>
-            <Text>Hola soy un texto</Text>
-            <Text>Hola soy un texto</Text>
-            <Text>Hola soy un texto</Text>
+            }}>
+              <StatusBar backgroundColor={theme.primaryColor} />
+              <Button url="https://www.google.com.mx">Ir a google</Button>
 
 
+            </View>
 
+          </LinearGradient>
+        </MainContainer>
 
-
-          </View>
-
-        </LinearGradient>
-
-      </View>
-
+      </ThemeContextProvider>
     </SafeAreaView>
   );
 };
